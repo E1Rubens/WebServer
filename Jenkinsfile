@@ -47,7 +47,7 @@ pipeline {
 
         stage('imgen') {
           steps {
-            sh 'docker images'
+            sh 'docker e1rubs/images'
           }
         }
 
@@ -63,6 +63,12 @@ pipeline {
     stage('complete') {
       steps {
         echo 'Ci complete'
+      }
+    }
+
+    stage('push') {
+      steps {
+        sh 'docker push e1rubs/webserver:vy'
       }
     }
 
