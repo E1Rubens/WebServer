@@ -47,7 +47,7 @@ pipeline {
 
         stage('imgen') {
           steps {
-            sh 'docker e1rubs/images'
+            sh 'docker images'
           }
         }
 
