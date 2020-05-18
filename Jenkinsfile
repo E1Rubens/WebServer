@@ -25,5 +25,46 @@ pipeline {
       }
     }
 
+    stage('image') {
+      steps {
+        sh 'docker build -t webserver:vy .'
+      }
+    }
+
+    stage('container') {
+      steps {
+        sh 'docker run -d --name WebServerCI -p 55:80 webserver:vy'
+      }
+    }
+
+    stage('status') {
+      parallel {
+        stage('status') {
+          steps {
+            echo 'checking info'
+          }
+        }
+
+        stage('imgen') {
+          steps {
+            sh 'docker images'
+          }
+        }
+
+        stage('container') {
+          steps {
+            sh 'docker ps'
+          }
+        }
+
+      }
+    }
+
+    stage('complete') {
+      steps {
+        echo 'Ci complete'
+      }
+    }
+
   }
 }
