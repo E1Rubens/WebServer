@@ -27,7 +27,7 @@ pipeline {
 
     stage('image') {
       steps {
-        sh 'docker build -t webserver:vy .'
+        sh 'docker build -t e1rubs/webserver:vy .'
       }
     }
 
