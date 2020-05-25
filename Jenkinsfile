@@ -27,13 +27,13 @@ pipeline {
 
     stage('image') {
       steps {
-        sh 'docker build -t e1rubs/webserver:vy .'
+        sh 'docker build -t e1rubs/webserver:vz .'
       }
     }
 
     stage('container') {
       steps {
-        sh 'docker run -d --name WebServerCI -p 55:80 e1rubs/webserver:vy'
+        sh 'docker run -d --name WebServerCIz -p 56:80 e1rubs/webserver:vz'
       }
     }
 
@@ -68,7 +68,33 @@ pipeline {
 
     stage('push') {
       steps {
-        sh 'docker push e1rubs/webserver:vy'
+        sh 'docker push e1rubs/webserver:vz'
+      }
+    }
+
+    stage('CD') {
+      steps {
+        echo 'Starting CD'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh 'kubectl create deployment mi-webserverz --image=e1rubs/webserver:vz'
+      }
+    }
+
+    stage('Expose') {
+      steps {
+        sh '''Kubectl expose deployment mi-webserverz --type=NodePort --port=80
+'''
+      }
+    }
+
+    stage('Delivery') {
+      steps {
+        sh '''Minikube service mi-webserverz --url
+'''
       }
     }
 
